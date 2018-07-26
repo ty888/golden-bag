@@ -6,7 +6,7 @@ export function installHttp(s) {
 }
 
 const http = axios.create({
-  baseURL: '/api/admin',
+  baseURL: '',
   responseType: 'json',
   headers: {
     'X-Requested-With': 'XMLHttpRequest',

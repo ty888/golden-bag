@@ -16,12 +16,30 @@ export const otherRoute = {
         },
       },
     },
-    // {
-    //   path: 'add_good',
-    //   title: '新建商品',
-    //   name: 'add_good',
-    //   component: () => import('@/views/goods/GoodForm'),
-    // },
+    {
+      path: 'template/:templateId',
+      title: '查看模板',
+      name: 'template.show',
+      component: () => import('@/views/template/Show.vue'),
+    },
+    {
+      path: 'template/create',
+      title: '新建模板',
+      name: 'template.create',
+      component: () => import('@/views/template/Show.vue'),
+    },
+    {
+      path: 'user/create',
+      title: '新建用户',
+      name: 'user.create',
+      component: () => import('@/views/user/UserFrom.vue'),
+    },
+    {
+      path: 'user/edit/:userId',
+      title: '更新用户',
+      name: 'user.edit',
+      component: () => import('@/views/user/UserFrom.vue'),
+    },
   ],
 };
 
@@ -29,32 +47,37 @@ export const otherRoute = {
 export const appRoutes = [
   {
     path: '/',
-    icon: 'el-icon-menu',
+    icon: 'ion-md-cube',
     // 作为顶级菜单
     top: true,
     component: Main,
     children: [
       {
-        path: 'dashboard',
+        path: '/',
         title: '工作台',
-        name: 'dashboard',
-        component: () => import('@/views/dashboard/Dashboard.vue'),
+        name: 'Workbench',
+        component: () => import('@/views/Workbench.vue'),
       },
     ],
   },
   {
-    path: '/goods',
-    icon: 'el-icon-goods',
-    name: 'goods',
-    top: true,
-    title: '商品中心',
+    path: '/basics',
+    icon: 'ion-md-analytics',
+    name: 'basics',
+    title: '基础管理',
     component: Main,
     children: [
       {
-        path: 'text',
-        title: '商品列表',
-        name: 'text',
-        component: () => import('@/views/Text.vue'),
+        path: 'user',
+        title: '用户管理',
+        name: 'user.index',
+        component: () => import('@/views/user/Index.vue'),
+      },
+      {
+        path: 'template',
+        title: '模板管理',
+        name: 'template.index',
+        component: () => import('@/views/template/Index.vue'),
       },
     ],
   },

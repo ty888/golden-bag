@@ -1,19 +1,15 @@
 <template>
   <div @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="user_panel">
     <div class="user_avatar">
-      <img src="https://img.alicdn.com/tfs/TB1L6tBXQyWBuNjy0FpXXassXXa-80-80.png" alt="" title="" />
+      <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532432586518&di=280d14ead1ac0242e13d8bb51dce63d4&imgtype=0&src=http%3A%2F%2Fwww.btc38.com%2Fuploadfile%2F2015%2F0326%2F20150326042232117.png" alt="" title="" />
     </div>
     <div class="user_profile">
-      <span class="user_name">后台用户</span>
       <span class="user_info">管理员</span>
     </div>
     <i class="icon el-icon-caret-bottom"></i>
     <transition name="fade">
       <div v-show="showActions" class="actions">
         <div class="arrow"></div>
-        <p>后台用户</p>
-        <div class="line"></div>
-        <a href="#">个人信息</a>
         <a href="#">设置</a>
         <div class="line"></div>
         <a href="#">退出</a>
@@ -54,15 +50,18 @@ export default {
   .user_panel{
     display: flex;
     align-items: center;
+    margin-top: 15px;
+    margin-left: 40px;
     cursor: pointer;
     position: relative;
     .user_avatar{
       display: inline-block;
       overflow: hidden;
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
       margin-right: 12px;
-      border-radius: 4px;
+      border-radius: 100%;
+      line-height: 1;
       > img{
         width: 100%;
       }
@@ -79,7 +78,7 @@ export default {
           font-size: 13px;
         }
         &.user_info{
-          font-size: 12px;
+          font-size: 14px;
           color: rgb(153, 153, 153);
         }
       }

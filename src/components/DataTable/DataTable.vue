@@ -35,11 +35,11 @@
       <el-pagination
         @size-change="pageSizeChange"
         @current-change="pageCurrentChange"
-        :current-page="pageMeta.current_page"
+        :current-page="pageMeta.number"
         :page-sizes="[10, 15, 20, 30]"
-        :page-size="pageMeta.per_page"
+        :page-size="pageMeta.size"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="pageMeta.total">
+        :total="pageMeta.totalElements">
       </el-pagination>
     </div>
   </div>

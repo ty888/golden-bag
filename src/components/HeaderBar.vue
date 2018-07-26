@@ -37,6 +37,10 @@ export default {
     .right_info{
       position: absolute;
       right: 20px;
+      >div{
+        margin-left: 20px;
+        float: left;
+      }
     }
   }
 </style>

@@ -2,16 +2,13 @@ export default {
   namespaced: true,
   state: {
     loadings: {
-      SuppliersList: false,
-      modifySuppliers: false,
-      good: false,
-      goodList: false,
-      addGood: false,
-      modifyGood: false,
-      categories: false,
-      categoriesList: false,
-      modifyCategories: false,
-      addCategories: false,
+      userList: false,
+      user: false,
+      departmentList: false,
+      // good: false,
+      // goodList: false,
+      // addGood: false,
+      // modifyGood: false,
     },
   },
   mutations: {

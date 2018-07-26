@@ -3,9 +3,9 @@
     <el-header>
       <header-bar class="header">
         <!-- <i @click="toggleCollapse" class="el-icon-menu side_switch"></i> -->
-        <breadcrumb :currentPath="currentPath"/>
         <template slot="right">
-          <FullScreen v-model="isFull"/>
+          <FullScreen v-model="isFull" />
+          <UserPanel />
         </template>
       </header-bar>
     </el-header>
@@ -14,9 +14,12 @@
         <side-menu :menu-list="menuList" :isCollapse="isCollapse"/>
       </el-aside>
       <el-container>
-        <el-main>
+        <div class="el_main">
+          <div class="page_header">
+            <breadcrumb :currentPath="currentPath"/>
+          </div>
           <router-view class="main"/>
-        </el-main>
+        </div>
       </el-container>
     </el-container>
   </el-container>
@@ -27,6 +30,7 @@ import SideMenu from '@/components/SideMenu.vue';
 import HeaderBar from '@/components/HeaderBar.vue';
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import FullScreen from '@/components/header/FullScreen.vue';
+import UserPanel from '@/components/header/UserPanel.vue';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -37,7 +41,7 @@ export default {
     };
   },
   components: {
-    SideMenu, HeaderBar, Breadcrumb, FullScreen,
+    SideMenu, HeaderBar, Breadcrumb, FullScreen, UserPanel,
   },
   computed: {
     ...mapState({
@@ -58,7 +62,6 @@ export default {
   .main_wrapper {
     height: 100%;
   }
-
   .el-header {
     padding: 0;
     .side_switch {
@@ -80,8 +83,16 @@ export default {
 
   .side_menu_aside {
     background-color: #fff;
+    overflow: hidden;
   }
-
+  .el_main{
+    width: 100%;
+    overflow: scroll;
+    .page_header{
+      background-color: #fff;
+      padding-left: 30px;
+    }
+  }
   .main {
     margin: 0 auto;
   }

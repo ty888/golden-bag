@@ -75,7 +75,7 @@ export default {
 .side_menu {
   padding-top: 10px;
   &:not(.el-menu--collapse) {
-    width: 180px;
+    width: 200px;
   }
 }
 .switch_icon{

@@ -1,7 +1,7 @@
 <template>
   <div @click="handleChange" v-if="showFullScreenBtn">
     <el-tooltip effect="dark" :content="value ? '退出全屏' : '全屏'" placement="bottom">
-      <icon :type="value ? 'contract' : 'expand'" size="30"/>
+      <icon :type="value ? 'contract' : 'expand'" size="26"/>
     </el-tooltip>
   </div>
 </template>

@@ -26,17 +26,19 @@ export default {
 
 <style scoped lang="less">
   .main_header {
-    margin-bottom: 15px;
+    background-color: #fff;
+    padding:10px 30px 20px;
+    overflow: hidden;
+    padding-top: 0px;
     > .title {
       display: inline-block;
       font-weight: 400;
       line-height: 1;
       font-size: 20px;
-      margin: 20px 0 25px;
+      margin: 0;
     }
     > .right_option {
       float: right;
-      margin-top: 10px;
     }
     > .bottom{
       overflow: hidden;
