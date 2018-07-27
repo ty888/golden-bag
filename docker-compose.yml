@@ -1,0 +1,19 @@
+version: "3"
+services:
+  golden-bag-frontend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: golden-bag-frontend
+    ports:
+      - "8081:80"
+    volumes:
+      - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./deploy/nginx/sites-available/:/etc/nginx/sites-available/
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    external:
+      name: app_net
