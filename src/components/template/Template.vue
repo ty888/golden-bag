@@ -28,7 +28,6 @@ export default{
       });
     },
     updateProjectItem(id, params) {
-      console.log(id, params);
       this.modifyTemplate({ id, type: 'project_item', params }).then(() => {
         this.$message.success('更新成功！');
       });
