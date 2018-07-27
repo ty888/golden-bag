@@ -6,7 +6,7 @@
       </div> -->
     </main-header>
     <div class="right_page">
-      <Template />
+      <Template editTemplate/>
     </div>
   </div>
 </template>

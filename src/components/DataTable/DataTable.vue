@@ -35,7 +35,7 @@
       <el-pagination
         @size-change="pageSizeChange"
         @current-change="pageCurrentChange"
-        :current-page="pageMeta.number"
+        :current-page="pageMeta.number + 1"
         :page-sizes="[10, 15, 20, 30]"
         :page-size="pageMeta.size"
         layout="total, sizes, prev, pager, next, jumper"
@@ -95,7 +95,7 @@ export default {
     },
     pageSizeChange(pageSize) {
       const params = {
-        page: this.pageMeta.current_page,
+        page: this.pageMeta.current_page - 1,
         per_page: pageSize,
       };
       this.updateQuery(params);
@@ -103,7 +103,7 @@ export default {
     },
     pageCurrentChange(currentPage) {
       const params = {
-        page: currentPage,
+        page: currentPage - 1,
         per_page: this.pageMeta.per_page,
       };
       this.updateQuery(params);

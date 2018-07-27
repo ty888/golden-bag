@@ -2,19 +2,22 @@
   <div class="input_tr">
     <!-- <div class="mask" v-show="isRead" @dblclick="canInput">于瘠薄</div> -->
     <textarea
-      @blur="() => readOnly = true"
+      @blur="onBlur"
       :readonly="readOnly"
       @dblclick="onDblClick"
       @input="input"
+      @keyup.enter="onBlur"
       v-model="currentValue"
+      :disabled="disabled"
       v-if="type === 'textarea'"
     ></textarea>
     <input
       v-else
-      @blur="() => readOnly = true"
+      @blur="onBlur"
       :readonly="readOnly"
       @dblclick="onDblClick"
       @input="input"
+      :disabled="disabled"
       v-model="currentValue"
     />
     <div class="edit_icon">
@@ -39,6 +42,12 @@ export default {
         return 'input';
       },
     },
+    disabled: {
+      type: Boolean,
+      default() {
+        return false;
+      },
+    },
   },
   watch: {
     value(val) {
@@ -52,6 +61,10 @@ export default {
     };
   },
   methods: {
+    onBlur() {
+      this.readOnly = true;
+      this.$emit('blur', this.currentValue);
+    },
     onDblClick(e) {
       const len = e.target.value.length;
       e.target.setSelectionRange(len, len);
@@ -62,7 +75,9 @@ export default {
     },
   },
   mounted() {
-    this.$el.style.height = `${this.$el.parentElement.offsetHeight}px`;
+    setTimeout(() => {
+      this.$el.style.height = `${this.$el.parentElement.offsetHeight - 2}px`;
+    });
   },
 };
 </script>
@@ -70,19 +85,19 @@ export default {
 <style lang="less" scoped>
 .input_tr{
   width: 100%;
-  height: 100%;
   position: relative;
-  &:hover>.edit_icon{
+  height: inherit;
+  &:hover>input:not([disabled])+.edit_icon, &:hover>textarea:not([disabled])+.edit_icon{
     opacity: 1;
   }
   >textarea, >input{
+    padding: 8px 3px;
     outline: none;
     resize: none;
     border: none;
     width: 100%;
     height: 100%;
     text-align: center;
-    padding: 0;
     border: 1px solid transparent;
     cursor: pointer;
     transition: all .1s;
@@ -94,7 +109,7 @@ export default {
     }
   }
   >textarea{
-    padding: 10px;
+    // padding: 10px;
   }
   >.edit_icon{
     opacity: 0;

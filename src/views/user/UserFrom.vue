@@ -41,7 +41,6 @@
                 label: 'name',
                 value: 'id',
               }"
-              placeholder="试试搜索：指南"
               :options="departments"
               filterable
               change-on-select
@@ -77,6 +76,7 @@
           </el-form-item>
           <el-form-item>
             <el-button
+              @keyup.enter="onSubmit"
               @click="onSubmit"
               :loading="loading"
               type="primary"
@@ -178,7 +178,7 @@ export default {
             .then(() => {
               this.$emit('success');
               this.$message.success(`${this.actionLabel}成功！`);
-              this.$router.back();
+              this.$router.push({ name: 'user.index' });
             });
         }
       });
@@ -197,6 +197,7 @@ export default {
         http.get('users/search', {
           params: {
             keyword: query,
+            ignoreId: this.$route.params.userId ? this.$route.params.userId : '',
           },
         }).then((res) => {
           this[type] = res.data.data;
@@ -210,6 +211,7 @@ export default {
         http.get('users/search', {
           params: {
             keyworld: query,
+            ignoreId: this.$route.params.userId ? this.$route.params.userId : '',
           },
         }).then((res) => {
           this.searchUser = res.data.data;

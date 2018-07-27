@@ -11,44 +11,47 @@ const app = {
     updateDepartmentList(state, { data }) {
       Object.assign(state, { departmentList: data });
     },
-    addDepartment(state, newDepartment) {
-      state.departmentList.unshift(newDepartment);
-      state.DepartmentMeta.totalElements = state.DepartmentMeta.totalElements + 1; // eslint-disable-line
+    addDepartment(state, newDepartment) { // eslint-disable-line
+      // state.departmentList.unshift(newDepartment);
+    },
+    updateDepartment(state, data) {
+      Object.assign(state, { currentDepartment: data });
     },
     modifyDepartment(state, newDepartment) {
       const targetDepartmentIndex =
         state.departmentList.findIndex(item => item.id === newDepartment.id);
       Vue.set(state.departmentList, targetDepartmentIndex, newDepartment); // eslint-disable-line
     },
+    deleteDepartment(state, id) {
+      const targetDepartmentIndex = state.departmentList.findIndex(item => item.id === id);
+      state.departmentList.splice(targetDepartmentIndex, 1); // eslint-disable-line
+    },
   },
   actions: {
-    async getdepartmentList({ commit }, params) { // eslint-disable-line
-      const newParams = { ...params };
-      const defaultPageSettings = { page: 0, per_page: 10 };
-      Object.keys(defaultPageSettings).forEach((key) => {
-        if (!newParams[key]) {
-          newParams[key] = defaultPageSettings[key];
-        }
-      });
+    async getDepartmentList({ commit }, params) { // eslint-disable-line
       const res = await http.get('departments', {
         loading: 'departmentList',
-        params: newParams,
+        params,
       });
       commit('updateDepartmentList', res.data);
     },
     async getDepartment({ commit }, id) {
       const res = await http.get(`departments/${id}`, {
-        loading: 'departmentList',
+        loading: 'department',
       });
-      commit('updateDepartment', res.data);
+      commit('updateDepartment', res.data.data);
     },
     async addDepartment({ commit }, Department) {
-      const { data: { data: newDepartment } } = await http.post('departments', Department, { loading: 'departmentList' });
+      const { data: { data: newDepartment } } = await http.post('departments', Department, { loading: 'department' });
       commit('addDepartment', newDepartment);
     },
     async modifyDepartment({ commit }, Department) {
-      const { data: { data: newDepartment } } = await http.put(`departments/${Department.id}`, Department, { loading: 'departmentList' });
+      const { data: { data: newDepartment } } = await http.put(`departments/${Department.id}`, Department, { loading: 'department' });
       commit('modifyDepartment', newDepartment);
+    },
+    async deleteDepartment({ commit }, id) {
+      await http.delete(`departments/${id}`, { loading: 'department' });
+      commit('deleteDepartment', id);
     },
   },
 };

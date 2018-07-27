@@ -5,6 +5,8 @@ import app from './modules/app';
 import loading from './modules/loading';
 import user from './modules/user';
 import department from './modules/department';
+import quarter from './modules/quarter';
+import template from './modules/template';
 
 Vue.use(Vuex);
 
@@ -23,5 +25,7 @@ export default new Vuex.Store({
     loading,
     user,
     department,
+    quarter,
+    template,
   },
 });

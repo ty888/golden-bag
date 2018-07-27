@@ -17,7 +17,7 @@ export const otherRoute = {
       },
     },
     {
-      path: 'template/:templateId',
+      path: 'template/:templateId?',
       title: '查看模板',
       name: 'template.show',
       component: () => import('@/views/template/Show.vue'),
@@ -72,6 +72,18 @@ export const appRoutes = [
         title: '用户管理',
         name: 'user.index',
         component: () => import('@/views/user/Index.vue'),
+      },
+      {
+        path: 'department',
+        title: '部门管理',
+        name: 'department.index',
+        component: () => import('@/views/department/Index.vue'),
+      },
+      {
+        path: 'quarter',
+        title: '季度管理',
+        name: 'quarter.index',
+        component: () => import('@/views/quarter/Index.vue'),
       },
       {
         path: 'template',

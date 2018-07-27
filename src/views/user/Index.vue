@@ -100,7 +100,7 @@ export default {
       'userMeta',
     ]),
     loading() {
-      return this.$store.state.loading.loadings.user;
+      return this.$store.state.loading.loadings.userList;
     },
     // categoriesList() {
     //   return this.$store.state.categories.categoriesList;
@@ -128,7 +128,7 @@ export default {
   mounted() {
   },
   created() {
-    this.getUserList();
+    this.getUserList(this.$route.query);
     // this.$store.dispatch('categories/getCategoriesList');
   },
   methods: {
@@ -169,4 +169,3 @@ export default {
 //   margin-right: 5px;
 // }
 </style>
-
