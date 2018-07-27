@@ -107,9 +107,10 @@ export default {
       // box-shadow: 1px 0px 3px 4px rgba(82, 146, 247, 0.25);
       box-shadow: 0px 3px 13px 2px rgba(82, 146, 247, 0.25);
     }
-  }
-  >textarea{
-    // padding: 10px;
+    &:disabled{
+      background-color: #fff;
+      color: #000;
+    }
   }
   >.edit_icon{
     opacity: 0;

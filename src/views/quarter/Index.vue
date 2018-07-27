@@ -91,8 +91,8 @@ export default {
           label: '季度名称',
           render(h, params) {
             return (
-              <p>{params.name}
-              { params.currentQuarter && <el-tag style={{ marginLeft: '10px' }} size="mini" type="danger">当前</el-tag> }</p>
+              <span>{params.name}
+              { params.currentQuarter && <el-tag style={{ marginLeft: '10px' }} size="mini" type="danger">当前</el-tag> }</span>
             );
           },
         },

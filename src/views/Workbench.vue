@@ -5,7 +5,7 @@
         <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532432586518&di=280d14ead1ac0242e13d8bb51dce63d4&imgtype=0&src=http%3A%2F%2Fwww.btc38.com%2Fuploadfile%2F2015%2F0326%2F20150326042232117.png" alt="">
       </div>
       <div class="info">
-        <h3 class="name">早安，于皖虎，你这个弱智！</h3>
+        <h3 class="name">hello，于皖虎，你这个。。。唉。。。！</h3>
         <div class="disc">
           <span>22岁</span>
           <span>男</span>

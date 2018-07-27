@@ -19,8 +19,18 @@
           label="操作">
           <template slot-scope="scope">
             <el-button-group>
-              <el-button size="small" type="primary" @click="onEdit(scope.row)">编辑</el-button>
-              <el-button size="small" type="danger" @click="onDel(scope.row)">删除</el-button>
+              <el-button
+                size="small"
+                type="primary"
+                @click="onEdit(scope.row)"
+                icon="el-icon-edit"
+              ></el-button>
+              <el-button
+                size="small"
+                type="danger"
+                @click="onDel(scope.row)"
+                icon="el-icon-delete"
+                ></el-button>
             </el-button-group>
           </template>
         </el-table-column>

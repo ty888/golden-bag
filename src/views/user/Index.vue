@@ -19,17 +19,6 @@
         <!-- <export event="export" @export="exportClass"></export> -->
       </div>
     </main-header>
-    <!-- <data-table
-      :loading="loading"
-      :columns="columns"
-      :dataSource="goodList"
-      @onEdit="onEdit"
-      @onDel="batchDelGood"
-      :pageMeta="goodListMeta"
-      @pageChange="pageChange"
-      @pageSizeChange="pageChange"
-      @onSelect="onSelect"
-    /> -->
     <div class="right_page">
       <data-table
         :columns="columns"
@@ -61,7 +50,6 @@ export default {
   data() {
     return {
       columns: [
-        { type: 'selection', width: 55 },
         { prop: 'name', label: '姓名', width: 80 },
         {
           label: '性别',

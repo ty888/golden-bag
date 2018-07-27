@@ -28,7 +28,6 @@ export default{
       });
     },
     updateProjectItem(id, params) {
-      console.log(id, params);
       this.modifyTemplate({ id, type: 'project_item', params }).then(() => {
         this.$message.success('更新成功！');
       });
@@ -50,11 +49,20 @@ export default{
           <tr>
             {/* 除了第一列的 projet_item title score */}
             <td colspan="5"><InputTr disabled={!this.editTemplate} type="textarea"
-              on-blur={ v => this.updateProjectItem(item.id, { title: v }) }
-              value={ item.title } on-input={ v => item.title = v }/></td>
+              on-blur={(v) => {
+                  if (v !== item.title) {
+                    this.updateProjectItem(item.id, { title: v });
+                  }
+              }}
+              value={item.title}
+            /></td>
             <td><InputTr disabled={!this.editTemplate} value={ item.score }
-              on-blur={ v => this.updateProjectItem(item.id, { score: v }) }
-              on-input={ v => item.score = v } /></td>
+              on-blur={(v) => {
+                  if (v !== item.score) {
+                    this.updateProjectItem(item.id, { score: v });
+                  }
+              }}
+            /></td>
           </tr>
         );
       });
@@ -62,19 +70,32 @@ export default{
           {/* title */}
           <td rowspan={pro.items.length}>
             <InputTr disabled={!this.editTemplate}
-              on-blur={ v => this.updateProject(pro.id, v) }
-              value={ pro.title } on-input={ v => pro.title = v }/>
+              on-blur={(v) => {
+                  if (v !== pro.title) {
+                    this.updateProject(pro.id, v);
+                  }
+              }}
+              value={ pro.title }/>
           </td>
           {/* project 第一行title */}
           <td colspan="5">
             <InputTr disabled={!this.editTemplate} type="textarea"
-              on-blur={ v => this.updateProjectItem(pro.items[0].id, { title: v }) }
-              value={ pro.items[0].title } on-input={ v => pro.items[0].title = v }/>
+              on-blur={(v) => {
+                  if (v !== pro.items[0].title) {
+                    this.updateProjectItem(pro.items[0].id, { title: v });
+                  }
+              }}
+              value={ pro.items[0].title }/>
           </td>
           {/* project 第一行score */}
           <td>
             <InputTr disabled={!this.editTemplate}
-              value={pro.items[0].score} on-input={v => pro.items[0].score = v}/>
+              on-blur={(v) => {
+                  if (v !== pro.items[0].score) {
+                    this.updateProjectItem(pro.items[0].id, { score: v });
+                  }
+              }}
+              value={pro.items[0].score} />
           </td>
           {/* 第一行自评得分 */}
           <td rowspan={pro.items.length}>
@@ -98,8 +119,12 @@ export default{
       const titleTds = [<tr class="editable">
           {/* 总结title */}
           <td colspan="10"><InputTr disabled={!this.editTemplate} value={inputItem.title}
-            on-blur={ v => this.updateInput(inputItem.id, v) }
-            on-input={v => inputItem.title = v} />
+            on-blur={(v) => {
+                  if (v !== inputItem.title) {
+                    this.updateInput(inputItem.id, v);
+                  }
+              }}
+          />
           </td>
         </tr>];
       titleTds.push(<tr class="editable" colspan="10">
