@@ -18,7 +18,7 @@ export const otherRoute = {
     },
     {
       path: 'template/:templateId?',
-      title: '查看模板',
+      title: '编辑模板',
       name: 'template.show',
       component: () => import('@/views/template/Show.vue'),
     },
@@ -39,6 +39,24 @@ export const otherRoute = {
       title: '更新用户',
       name: 'user.edit',
       component: () => import('@/views/user/UserFrom.vue'),
+    },
+    {
+      path: 'audit/self-evaluation',
+      title: '自评',
+      name: 'self_evaluation',
+      component: () => import('@/views/audit/SelfEvaluation.vue'),
+    },
+    {
+      path: 'audit/direct-evaluation/:recordId',
+      title: '直接经理评价',
+      name: 'direct_evaluation',
+      component: () => import('@/views/audit/SelfEvaluation.vue'),
+    },
+    {
+      path: 'audit/indirect-evaluation/:recordId',
+      title: '间接经理评价',
+      name: 'indirect_evaluation',
+      component: () => import('@/views/audit/SelfEvaluation.vue'),
     },
   ],
 };
@@ -90,6 +108,27 @@ export const appRoutes = [
         title: '模板管理',
         name: 'template.index',
         component: () => import('@/views/template/Index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/audit',
+    icon: 'ion-md-analytics',
+    name: 'audit',
+    title: '审核管理',
+    component: Main,
+    children: [
+      {
+        path: 'direct_manager',
+        title: '直接经理评价',
+        name: 'direct_manager',
+        component: () => import('@/views/audit/DirectManager.vue'),
+      },
+      {
+        path: 'in_direct_manager',
+        title: '间接经理评价',
+        name: 'in_direct_manager',
+        component: () => import('@/views/audit/InDirectManager.vue'),
       },
     ],
   },

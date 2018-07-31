@@ -1,13 +1,19 @@
 <template>
   <div class="template_item">
     <div class="box">
-      <div class="pic"></div>
+      <div class="pic">
+        <div class="mask">
+          <el-button
+            @click="edit"
+            class="edit_btn"
+            type="primary"
+            icon="el-icon-edit"
+            circle>
+          </el-button>
+        </div>
+      </div>
       <div class="disc">
         <h3 class="title">{{title}}</h3>
-        <div class="operation">
-          <span @click="see">查看</span>
-          <span>编辑</span>
-        </div>
       </div>
     </div>
   </div>
@@ -18,10 +24,11 @@ export default {
   name: 'TemplateItem',
   props: {
     title: String,
+    id: [Number, String],
   },
   methods: {
-    see() {
-      this.$router.push({ name: 'template.show' });
+    edit() {
+      this.$router.push({ name: 'template.show', params: { templateId: this.id } });
     },
   },
 };
@@ -37,7 +44,7 @@ export default {
     border-radius: 5px;
     display: block;
     overflow: hidden;
-    &:hover .operation{
+    &:hover .mask{
       opacity: 1;
     }
   }
@@ -48,6 +55,23 @@ export default {
     color: #fff;
     background-position: center;
     background-size: cover;
+    position: relative;
+    >.mask{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .6);
+      opacity: 0;
+      transition: opacity .2s;
+      .edit_btn{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
   }
   .disc{
     background-color: #fff;
@@ -57,19 +81,6 @@ export default {
       margin: 0;
       color: #777;
       font-size: 14px;
-    }
-    >.operation{
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      transition: opacity .2s;
-      opacity: 0;
-      >span{
-        font-size: 12px;
-        margin-left: 10px;
-        cursor: pointer;
-        color: #409EFF;
-      }
     }
   }
 }

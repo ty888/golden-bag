@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state: {
     loadings: {
+      me: false,
       userList: false,
       user: false,
       departmentList: false,
@@ -10,6 +11,8 @@ export default {
       quarterList: false,
       templateList: false,
       template: false,
+      audit: false,
+      auditList: false,
       // good: false,
       // goodList: false,
       // addGood: false,

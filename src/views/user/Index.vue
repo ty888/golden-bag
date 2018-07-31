@@ -65,20 +65,8 @@ export default {
           },
         },
         { prop: 'department.name', label: '所属部门', width: 130 },
-        { prop: 'indirectManager.name', label: '直接经理', width: 130 },
-        { prop: 'directManager.name', label: '间接经理', width: 130 },
-      ],
-      goodList: [
-        {
-          name: '于皖虎',
-          gender: '未知',
-          rank_coefficient: '0.2',
-          entry_date: '2017-01-10',
-          role: '清洁工',
-          department: '后勤',
-          indirect_manager: '田阳',
-          direct_manager: '田阳',
-        },
+        { prop: 'directManager.name', label: '直接经理', width: 130 },
+        { prop: 'indirectManager.name', label: '间接经理', width: 130 },
       ],
     };
   },

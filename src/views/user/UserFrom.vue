@@ -238,7 +238,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('department/getdepartmentList');
+    this.$store.dispatch('department/getDepartmentList');
     if (this.$route.name === 'user.edit') {
       this.getUser(this.$route.params.userId);
     } else {

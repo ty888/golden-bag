@@ -5,21 +5,35 @@
 import { createNamespacedHelpers } from 'vuex';
 import InputTr from './InputTr.vue';
 
-const { mapActions, mapState } = createNamespacedHelpers('template');
+const { mapActions } = createNamespacedHelpers('template');
 
 export default{
   name: 'Template',
   components: {
     InputTr,
   },
+  data() {
+    return {
+    };
+  },
   computed: {
-    ...mapState([
-      'currentTemplate',
-    ]),
+    loading() {
+      return this.$store.state.loading.loadings.template;
+    },
+    isSelf() {
+      return this.$route.name === 'self_evaluation';
+    },
+    // 直接
+    isDirect() {
+      return this.$route.name === 'direct_evaluation';
+    },
+    // 间接
+    isIndirect() {
+      return this.$route.name === 'indirect_evaluation';
+    },
   },
   methods: {
     ...mapActions([
-      'getTemplate',
       'modifyTemplate',
     ]),
     updateProject(id, title) {
@@ -37,9 +51,21 @@ export default{
         this.$message.success('更新成功！');
       });
     },
-  },
-  created() {
-    this.getTemplate(this.$route.params.templateId);
+    editSelfProject(id, v) {
+      this.$emit('editSelfProject', id, v);
+    },
+    editSelfInput(id, v) {
+      this.$emit('editSelfInput', id, v);
+    },
+    editDirectInput(v) {
+      this.$emit('editDirectInput', v);
+    },
+    editDirectProject(id, v) {
+      this.$emit('editDirectProject', id, v);
+    },
+    editInDirectInput(v) {
+      this.$emit('editInDirectInput', v);
+    },
   },
   render() {
     const proTrs = this.currentTemplate.assessmentProjects.map((pro) => {
@@ -99,18 +125,28 @@ export default{
           </td>
           {/* 第一行自评得分 */}
           <td rowspan={pro.items.length}>
-            <InputTr disabled={this.editTemplate}
-              value={pro.self_evaluation} on-input={v => pro.self_evaluation = v} />
+            <InputTr
+              on-blur={v => this.editSelfProject(pro.id, v)}
+              disabled={this.editTemplate || !this.isSelf}
+              value={pro.self_evaluation}
+              on-input={v => pro.self_evaluation = v}
+            />
           </td>
           {/* 第一行直接经理评分 */}
           <td rowspan={pro.items.length}>
-            <InputTr disabled={this.editTemplate}
-              value={pro.direct_manager_score} on-input={v => pro.direct_manager_score = v}/>
+            <InputTr
+              disabled={this.editTemplate || !this.isDirect}
+              on-blur={v => this.editDirectProject(pro.id, v)}
+              value={pro.direct_manager_score} on-input={v => pro.direct_manager_score = v}
+            />
           </td>
           {/* 第一行备注 */}
           <td rowspan={pro.items.length}>
-            <InputTr disabled={this.editTemplate}
-              type="textarea" value={pro.remarks} on-input={v => pro.remarks = v} />
+            <InputTr
+              disabled={this.editTemplate || !this.isDirect}
+              on-blur={v => this.editDirectProject(pro.id, v)}
+              type="textarea" value={pro.remarks} on-input={v => pro.remarks = v}
+            />
           </td>
         </tr>);
       return trs;
@@ -130,13 +166,18 @@ export default{
       titleTds.push(<tr class="editable" colspan="10">
           <td class="input_td" colspan="10">
             {/* 总结content */}
-            <InputTr disabled={this.editTemplate} type="textarea" value={inputItem.value} on-input={v => inputItem.value = v} />
+            <InputTr
+              on-blur={v => this.editSelfInput(inputItem.id, v)}
+              disabled={this.editTemplate || !this.isSelf}
+              type="textarea"
+              value={inputItem.value} on-input={v => inputItem.value = v}
+            />
           </td>
         </tr>);
       return titleTds;
     });
     return (
-      <div class="template">
+      <div class="template" v-loading={this.loading}>
         <table cellpadding="0" class="table">
           <tr>
             <td colspan="10"><InputTr disabled value="上海容大数字技术有限公司" /></td>
@@ -150,22 +191,33 @@ export default{
           <tr>
             <td><InputTr disabled value="姓名" /></td>
             <td>
-              <InputTr value={ this.val } on-input={v => this.val = v} />
+              <InputTr disabled value={this.basicsInfo.name}/>
             </td>
             <td><InputTr disabled value="部门" /></td>
-            <td></td>
+            <td>
+            <InputTr
+              disabled value={this.basicsInfo.department && this.basicsInfo.department.name} />
+            </td>
             <td><InputTr disabled value="项目组" /></td>
-            <td></td>
+            <td><InputTr disabled /></td>
             <td><InputTr disabled value="岗位" /></td>
             <td colspan="3"></td>
           </tr>
           <tr>
             <td><InputTr disabled value="直接经理" /></td>
-            <td></td>
+            <td>
+              <InputTr
+                disabled
+                value={this.basicsInfo.directManager && this.basicsInfo.directManager.name} />
+            </td>
             <td><InputTr disabled value="间接经理" /></td>
-            <td colspan="2"></td>
+            <td colspan="2">
+              <InputTr
+                disabled
+                value={this.basicsInfo.indirectManager && this.basicsInfo.indirectManager.name}/>
+            </td>
             <td><InputTr disabled value="考核时间" /></td>
-            <td></td>
+            <td><InputTr disabled /></td>
             <td colspan="3"><InputTr disabled value="2018年第2季度" /></td>
           </tr>
           <tr>
@@ -196,10 +248,31 @@ export default{
             <td colspan="10"><InputTr disabled value="工作总结、改进和工作目标计划" /></td>
           </tr>
           {inputTrs}
-           <tr>
-              <td colspan="4"><InputTr disabled value="间接经理审核意见" /></td>
-              <td colspan="6"><InputTr value={ this.val } on-input={v => this.val = v} /></td>
-            </tr>
+          <tr>
+            <td colspan="10"><InputTr disabled value="直接经理评价和改进建议：" /></td>
+          </tr>
+          <tr class="editable" colspan="10">
+            <td class="input_td" colspan="10">
+              <InputTr
+                on-blur={v => this.editDirectInput(v)}
+                disabled={this.editTemplate || !this.isDirect}
+                type="textarea"
+                value={this.val}
+                on-input={v => this.val = v}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4"><InputTr disabled value="间接经理审核意见" /></td>
+            <td colspan="6">
+              <InputTr
+                on-blur={v => this.editInDirectInput(v)}
+                value={ this.val }
+                on-input={v => this.val = v}
+                disabled={this.editTemplate || !this.isIndirect}
+              />
+            </td>
+          </tr>
         </table>
       </div>
     );
@@ -211,58 +284,18 @@ export default{
         return true;
       },
     },
-  },
-  data() {
-    return {
-      vale: 'ty',
-      proLists: [
-        {
-          name: '(1)基础操守',
-          options: [
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-          ],
-          self_evaluation: '10',
-          direct_manager_score: '10',
-          remarks: '垃圾',
-        },
-        {
-          name: '(1)基础操守',
-          options: [
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-          ],
-          self_evaluation: '10',
-          direct_manager_score: '10',
-          remarks: '垃圾',
-        },
-        {
-          name: '(1)基础操守',
-          options: [
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-            { title: 'A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用', value: '10' },
-          ],
-          self_evaluation: '10',
-          direct_manager_score: '10',
-          remarks: '垃圾',
-        },
-      ],
-      inputList: [
-        { title: '1．工作总结（包括主要工作内容，计划完成情况、主要成果，个人取得的进步等;', value: '' },
-        { title: '2．你觉得自身工作中还存在哪些问题及改进计划？对公司的工作有何意见和建议', value: '' },
-        { title: '3．你下一个阶段的工作目标和计划', value: '' },
-        { title: '4．直接经理评价和改进建议', value: '' },
-      ],
-    };
+    basicsInfo: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    currentTemplate: {
+      type: Object,
+      default() {
+        return [];
+      },
+    },
   },
 };
 </script>

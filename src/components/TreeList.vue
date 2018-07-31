@@ -75,6 +75,7 @@ export default {
   height: 100%;
   width: 300px;
   padding: 20px;
+  overflow: scroll;
   background-color: #fff;
   >h2.title{
     font-size: 18px;

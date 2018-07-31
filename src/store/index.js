@@ -7,6 +7,8 @@ import user from './modules/user';
 import department from './modules/department';
 import quarter from './modules/quarter';
 import template from './modules/template';
+import audit from './modules/audit';
+import me from './modules/me';
 
 Vue.use(Vuex);
 
@@ -27,5 +29,7 @@ export default new Vuex.Store({
     department,
     quarter,
     template,
+    audit,
+    me,
   },
 });

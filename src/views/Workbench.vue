@@ -5,20 +5,43 @@
         <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532432586518&di=280d14ead1ac0242e13d8bb51dce63d4&imgtype=0&src=http%3A%2F%2Fwww.btc38.com%2Fuploadfile%2F2015%2F0326%2F20150326042232117.png" alt="">
       </div>
       <div class="info">
-        <h3 class="name">hello，于皖虎，你这个。。。唉。。。！</h3>
+        <h3 class="name">hello，{{me.name}}！</h3>
         <div class="disc">
           <span>22岁</span>
-          <span>男</span>
-          <span>交互专家</span>
-          <span>技术总监</span>
+          <span>{{me.gender === 'WOMAN' ? '男' : '女'}}</span>
+          <span>{{me.department && me.department.name}}</span>
         </div>
       </div>
-      <div class="count_down">离下个季度发奖金还剩<span class="time">43</span>天</div>
+      <div class="count_down">
+        <div class="evaluate_btn">
+          <el-button
+            @click="selfEvaluation"
+            type="primary" plain>季度自评</el-button>
+        </div>
+        <div>离下个季度发奖金还剩<span class="time">43</span>天</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
+
+const { mapState } = createNamespacedHelpers('me');
+
+export default {
+  name: 'WorkBench',
+  methods: {
+    selfEvaluation() {
+      this.$router.push({ name: 'self_evaluation' });
+    },
+  },
+  computed: {
+    ...mapState([
+      'me',
+    ]),
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -28,6 +51,7 @@
     padding: 30px 40px;
     width: 100%;
     position: relative;
+    overflow: hidden;
     >.img{
       width: 72px;
       height: 72px;
@@ -58,13 +82,18 @@
       position: absolute;
       top: 50%;
       right: 80px;
-      transform: translateY(-50%);
       font-size: 18px;
-      >span.time{
+      transform: translateY(-50%);
+      span.time{
         font-size: 36px;
         padding: 8px 6px;
         margin: 0 8px;
         color: #3999da;
+      }
+      >.evaluate_btn{
+        position: absolute;
+        bottom: -5px;
+        left: -120px;
       }
     }
   }

@@ -55,6 +55,9 @@ export default {
       'toggleCollapse',
     ]),
   },
+  mounted() {
+    this.$store.dispatch('me/getMe');
+  },
 };
 </script>
 

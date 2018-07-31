@@ -34,7 +34,7 @@
             </el-button-group>
           </template>
         </el-table-column>
-        <el-table-column v-else>
+        <el-table-column :label="action.label" v-else>
           <template slot-scope="scope">
             <table-render-item :render="action.render" :params="scope.row" />
           </template>

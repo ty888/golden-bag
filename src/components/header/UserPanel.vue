@@ -4,21 +4,22 @@
       <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532432586518&di=280d14ead1ac0242e13d8bb51dce63d4&imgtype=0&src=http%3A%2F%2Fwww.btc38.com%2Fuploadfile%2F2015%2F0326%2F20150326042232117.png" alt="" title="" />
     </div>
     <div class="user_profile">
-      <span class="user_info">管理员</span>
+      <span class="user_info">{{me.name}}</span>
     </div>
     <i class="icon el-icon-caret-bottom"></i>
     <transition name="fade">
       <div v-show="showActions" class="actions">
         <div class="arrow"></div>
-        <a href="#">设置</a>
-        <div class="line"></div>
-        <a href="#">退出</a>
+        <a href="#">退出登陆</a>
       </div>
     </transition>
   </div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
+
+const { mapState } = createNamespacedHelpers('me');
 export default {
   name: 'UserPanel',
   data() {
@@ -26,6 +27,11 @@ export default {
       showActions: false,
       timer: null,
     };
+  },
+  computed: {
+    ...mapState([
+      'me',
+    ]),
   },
   methods: {
     mouseEnter() {

@@ -12,8 +12,8 @@ const app = {
     },
   },
   mutations: {
-    updateTemplateList(state, { content }) {
-      Object.assign(state, { templateList: content });
+    updateTemplateList(state, { data }) {
+      Object.assign(state, { templateList: data });
     },
     addTemplate(state, newTemplate) { // eslint-disable-line
       // state.templateList.unshift(newTemplate);
@@ -50,7 +50,7 @@ const app = {
         loading: 'templateList',
         params,
       });
-      commit('updateTemplateList', res.data.data);
+      commit('updateTemplateList', res.data);
     },
     async getTemplate({ commit }, id) {
       const res = await http.get(`templates/${id}`, {

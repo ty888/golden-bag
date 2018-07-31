@@ -55,14 +55,17 @@ const app = {
       });
       commit('updateQuarter', res.data.data);
     },
+
     async addQuarter({ commit }, quarter) {
       await http.post('quarters', quarter, { loading: 'quarter' });
       commit('addQuarter');
     },
+
     async modifyQuarter({ commit }, quarter) {
       const { data: { data: newQuarter } } = await http.put(`quarters/${quarter.id}`, quarter, { loading: 'quarter' });
       commit('modifyQuarter', newQuarter);
     },
+
     async deleteQuarter({ commit }, id) {
       await http.delete(`quarters/${id}`, { loading: 'quarterList' });
       commit('deleteQuarter', id);

@@ -6,25 +6,25 @@
       </div>
     </main-header>
     <div class="right_page main">
-      <div class="year_list">
-        <h2 class="title">2018年</h2>
-        <TemplateItem title="第一季度" />
-        <TemplateItem title="第二季度" />
-      </div>
-      <div class="year_list">
-        <h2 class="title">2017年</h2>
-        <TemplateItem title="第一季度" />
-        <TemplateItem title="第二季度" />
-        <TemplateItem title="第三季度" />
-        <TemplateItem title="第四季度" />
+      <div class="year_list" v-for="(template, key) of templateList" :key='key'>
+        <h2 class="title">{{key}}</h2>
+        <TemplateItem
+          :id="item.id"
+          :title="item.name"
+          v-for="(item, index) in template"
+          :key="index"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import MainHeader from '@/components/MainHeader.vue';
 import TemplateItem from '@/components/template/TemplateItem.vue';
+
+const { mapActions, mapState } = createNamespacedHelpers('template');
 
 export default {
   name: 'TemplateList',
@@ -32,9 +32,21 @@ export default {
     MainHeader, TemplateItem,
   },
   methods: {
+    ...mapActions([
+      'getTemplateList',
+    ]),
     onAdd() {
-      this.$router.push({ name: 'template.create' });
+      // this.$router.push({ name: 'template.create' });
+      console.log(this.templateList);
     },
+  },
+  created() {
+    this.getTemplateList();
+  },
+  computed: {
+    ...mapState([
+      'templateList',
+    ]),
   },
 };
 </script>

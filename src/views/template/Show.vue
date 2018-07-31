@@ -2,13 +2,25 @@
   <div class="temp_main">
     <main-header title="模板管理">
       <div slot="right">
-        <el-button @click="addPro" plain type="primary" icon="el-icon-plus">项目</el-button>
-        <el-button @click="addOption" plain type="primary" icon="el-icon-plus">选项</el-button>
-        <el-button @click="addSummary" plain type="success" icon="el-icon-plus">总结</el-button>
+        <el-button @click="showPro = true" plain type="primary" icon="el-icon-plus">项目</el-button>
+        <el-button
+          @click="showOption = true"
+          plain
+          type="primary"
+          icon="el-icon-plus">选项</el-button>
+        <el-button
+          @click="showSummary = true"
+          plain
+          type="success"
+          icon="el-icon-plus">总结</el-button>
       </div>
     </main-header>
+    <!-- 模板 -->
     <div class="right_page">
-      <Template editTemplate/>
+      <Template
+        editTemplate
+        :currentTemplate='currentTemplate'
+      />
     </div>
     <!-- 添加选项 -->
     <el-dialog width="40%" title="添加选项" :visible.sync="showOption">
@@ -41,7 +53,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitOption">提交</el-button>
-        <el-button @click="showAdd = false">取 消</el-button>
+        <el-button @click="showOption = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 添加总结 -->
@@ -61,22 +73,22 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitSummary">提交</el-button>
-        <el-button @click="showAdd = false">取 消</el-button>
+        <el-button @click="showSummary = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 添加项目 -->
     <el-dialog width="50%" title="添加项目" :visible.sync="showPro">
       <el-form
-        :model="summaryFrom"
+        :model="proFrom"
         label-width="80px"
         label-position="left"
         class="pro_form">
         <el-form-item label="项目标题">
-          <el-input placeholder="输入项目标题" v-model="summaryFrom.title" auto-complete="off"></el-input>
+          <el-input placeholder="输入项目标题" v-model="proFrom.title" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item
           label-position="right"
-          v-for="(item, index) in summaryFrom.items"
+          v-for="(item, index) in proFrom.items"
           :label="`选项${index+1}`"
           :key="item.id"
         >
@@ -96,7 +108,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitPro">提交</el-button>
         <el-button @click="addOptionPro">新增选项</el-button>
-        <el-button @click="showAdd = false">取 消</el-button>
+        <el-button @click="showPro = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -120,15 +132,15 @@ export default {
       showPro: false,
       showOption: false,
       showSummary: false,
-      proFrom: {},
+      summaryFrom: {},
       optionFrom: {},
-      summaryFrom: {
+      proFrom: {
         title: '',
         items: [
-          { title: '', scroe: '' },
-          { title: '', scroe: '' },
-          { title: '', scroe: '' },
-          { title: '', scroe: '' },
+          { title: '', score: '' },
+          { title: '', score: '' },
+          { title: '', score: '' },
+          { title: '', score: '' },
         ],
       },
     };
@@ -138,21 +150,15 @@ export default {
       'getTemplate',
       'addTemplateProps',
     ]),
-    addPro() {
-      this.showPro = true;
-    },
-    addOption() {
-      this.showOption = true;
-    },
-    addSummary() {
-      this.showSummary = true;
-    },
     submitPro() {
-      console.log(this.proFrom);
+      this.proFrom.id = this.$route.params.templateId;
+      this.addTemplateProps({ type: 'project', params: this.proFrom }).then(() => {
+        this.showPro = false;
+        this.$message.success('添加成功');
+      });
     },
     submitOption() {
       this.addTemplateProps({ type: 'project_item', params: this.optionFrom }).then(() => {
-        this.getTemplate(this.$route.params.templateId);
         this.showOption = false;
         this.$message.success('添加成功');
       });
@@ -160,21 +166,20 @@ export default {
     submitSummary() {
       this.summaryFrom.id = this.$route.params.templateId;
       this.addTemplateProps({ type: 'template_input', params: this.summaryFrom }).then(() => {
-        this.getTemplate(this.$route.params.templateId);
         this.showSummary = false;
         this.$message.success('添加成功');
       });
     },
     removeOption(item) {
-      const index = this.summaryFrom.items.indexOf(item);
+      const index = this.proFrom.items.indexOf(item);
       if (index !== -1) {
-        this.summaryFrom.items.splice(index, 1);
+        this.proFrom.items.splice(index, 1);
       }
     },
     addOptionPro() {
-      this.summaryFrom.items.push({
+      this.proFrom.items.push({
         title: '',
-        scroe: '',
+        score: '',
       });
     },
   },
