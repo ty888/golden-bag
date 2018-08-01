@@ -41,7 +41,19 @@ export const otherRoute = {
       component: () => import('@/views/user/UserFrom.vue'),
     },
     {
-      path: 'audit/self-evaluation',
+      path: 'role/create',
+      title: '新建角色',
+      name: 'role.create',
+      component: () => import('@/views/role/RoleFrom.vue'),
+    },
+    {
+      path: 'role/edit/:roleId',
+      title: '更新角色',
+      name: 'role.edit',
+      component: () => import('@/views/role/RoleFrom.vue'),
+    },
+    {
+      path: 'audit/self-evaluation/:recordId',
       title: '自评',
       name: 'self_evaluation',
       component: () => import('@/views/audit/SelfEvaluation.vue'),
@@ -80,7 +92,7 @@ export const appRoutes = [
   },
   {
     path: '/basics',
-    icon: 'ion-md-analytics',
+    icon: 'ion-md-transgender',
     name: 'basics',
     title: '基础管理',
     component: Main,
@@ -90,6 +102,12 @@ export const appRoutes = [
         title: '用户管理',
         name: 'user.index',
         component: () => import('@/views/user/Index.vue'),
+      },
+      {
+        path: 'role',
+        title: '角色管理',
+        name: 'role.index',
+        component: () => import('@/views/role/Index.vue'),
       },
       {
         path: 'department',
@@ -103,6 +121,15 @@ export const appRoutes = [
         name: 'quarter.index',
         component: () => import('@/views/quarter/Index.vue'),
       },
+    ],
+  },
+  {
+    path: '/template',
+    icon: 'ion-md-albums',
+    name: 'template',
+    title: '模版管理',
+    component: Main,
+    children: [
       {
         path: 'template',
         title: '模板管理',
@@ -113,7 +140,7 @@ export const appRoutes = [
   },
   {
     path: '/audit',
-    icon: 'ion-md-analytics',
+    icon: 'ion-md-exit',
     name: 'audit',
     title: '审核管理',
     component: Main,

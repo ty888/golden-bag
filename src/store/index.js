@@ -9,6 +9,7 @@ import quarter from './modules/quarter';
 import template from './modules/template';
 import audit from './modules/audit';
 import me from './modules/me';
+import role from './modules/role';
 
 Vue.use(Vuex);
 
@@ -31,5 +32,6 @@ export default new Vuex.Store({
     template,
     audit,
     me,
+    role,
   },
 });

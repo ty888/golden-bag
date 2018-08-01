@@ -33,13 +33,20 @@ export default {
   name: 'WorkBench',
   methods: {
     selfEvaluation() {
-      this.$router.push({ name: 'self_evaluation' });
+      this.$router.push({ name: 'self_evaluation', params: { recordId: this.currentUserTemplate } });
     },
   },
   computed: {
     ...mapState([
       'me',
+      'currentUserTemplate',
     ]),
+    currentUserTemplate() {
+      return this.$store.state.user.currentUserTemplate;
+    },
+  },
+  created() {
+    this.$store.dispatch('user/getCurrentUserTemplate');
   },
 };
 </script>

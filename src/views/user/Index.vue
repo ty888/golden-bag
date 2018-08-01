@@ -57,6 +57,7 @@ export default {
             return params.gender === 'WOMAN' ? <span>女</span> : <span>男</span>;
           },
         },
+        { prop: 'phone', label: '手机号' },
         { prop: 'rankCoefficient', label: '职级系数', width: 120 },
         {
           label: '入职时间',

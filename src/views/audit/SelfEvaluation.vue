@@ -57,7 +57,9 @@ export default {
   data() {
     return {
       selfEvaluationData: {
-        assessmentTemplate: { id: 1 },
+        assessmentTemplate: {
+          id: this.$route.params.recordId,
+        },
         assessmentProjectScores: [],
         assessmentInputContents: [],
       },
@@ -125,7 +127,7 @@ export default {
       this.$store.dispatch('audit/selfEvaluation', this.selfEvaluationData).then(() => {
         this.$message.success('评价成功！');
         this.$router.push({ name: 'Workbench' });
-      });;
+      });
     },
     submitDirect() {
       this.directEvaluationData.id = this.$route.params.recordId;

@@ -232,7 +232,6 @@ export default{
           <tr>
             <td colspan="6">合记</td>
             <td>
-              <InputTr value={this.val} on-input={v => this.val = v} />
             </td>
             <td>
               <InputTr value={this.val} on-input={v => this.val = v} />

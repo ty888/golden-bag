@@ -7,6 +7,7 @@ const app = {
     userList: [],
     userMeta: {},
     currentUser: {},
+    currentUserTemplate: '',
   },
   mutations: {
     updateUserList(state, { content, meta }) {
@@ -28,6 +29,9 @@ const app = {
       const targetUserIndex = state.userList.findIndex(item => item.id === id);
       state.userList.splice(targetUserIndex, 1); // eslint-disable-line
       state.userMeta.totalElements = state.userMeta.totalElements - 1; // eslint-disable-line
+    },
+    updateCurrentUserTemplate(state, { id }) {
+      Object.assign(state, { currentUserTemplate: id });
     },
   },
   actions: {
@@ -67,6 +71,10 @@ const app = {
     async deleteUser({ commit }, id) {
       await http.delete(`users/${id}`, { loading: 'userList' });
       commit('deleteUser', id);
+    },
+    async getCurrentUserTemplate({ commit }) {
+      const res = await http.get('templates/get_template', { loading: 'user' });
+      commit('updateCurrentUserTemplate', res.data.data);
     },
   },
 };

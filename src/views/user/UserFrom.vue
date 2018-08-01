@@ -14,11 +14,14 @@
           <el-form-item prop="name"  label="姓名">
             <el-input v-model="userClone.name" placeholder="请输入姓名" type="text"></el-input>
           </el-form-item>
-          <el-form-item label="选择性别">
+          <el-form-item prop="gender" label="选择性别">
             <el-radio-group v-model="userClone.gender">
               <el-radio label="MAN">男</el-radio>
               <el-radio label="WOMAN">女</el-radio>
             </el-radio-group>
+          </el-form-item>
+          <el-form-item prop="phone" label="手机号">
+            <el-input v-model="userClone.phone" placeholder="请输入手机号" type="number"></el-input>
           </el-form-item>
           <el-form-item prop="rankCoefficient"  label="职级系数">
             <el-input-number
@@ -33,6 +36,22 @@
               type="date"
               placeholder="入职时间">
             </el-date-picker>
+          </el-form-item>
+          <el-form-item prop="roles" label="所属角色">
+            <el-select
+              v-model="userClone.rolesIds"
+              multiple
+              filterable
+              allow-create
+              default-first-option
+              placeholder="请选择角色">
+              <el-option
+                v-for="item in roles"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item prop="departmentIds" label="所属部门">
             <el-cascader
@@ -67,7 +86,7 @@
               :filter-method="searchIndirectManager"
             >
               <el-option
-                v-for="item in  indirectManagerList"
+                v-for="item in indirectManagerList"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id">
@@ -107,7 +126,6 @@ export default {
   data() {
     return {
       userClone: this.preprocessUser(clone(this.currentUser)),
-      options: [],
       indirectManagerList: [],
       directManagerList: [],
       searchDepartment: [],
@@ -130,6 +148,9 @@ export default {
     departments() {
       return this.$store.state.department.departmentList;
     },
+    roles() {
+      return this.$store.state.role.roleList;
+    },
     rules() {
       return {
         name: [
@@ -140,6 +161,12 @@ export default {
             message: '长度在 1 到 40 个字符',
             trigger: 'blur',
           },
+        ],
+        gender: [
+          { required: true, message: '请选择性别', trigger: 'blur' },
+        ],
+        phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
         ],
         rankCoefficient: [
           { required: true, message: '请输入职级系数', trigger: 'blur' },
@@ -172,6 +199,8 @@ export default {
       'getUser',
     ]),
     onSubmit() {
+      this.userClone.roles = this.userClone.rolesIds.map(item => ({ id: item }));
+      // delete this.userClone.rolesIds;
       this.$refs.userForm.validate((passed) => {
         if (passed) {
           this[this.userClone.id ? 'modifyUser' : 'addUser'](this.userClone)
@@ -182,7 +211,6 @@ export default {
             });
         }
       });
-      // console.log(this.userClone);
     },
     searchDirectManager(query) {
       this.searchUserList(query, 'directManagerList');
@@ -224,10 +252,14 @@ export default {
     preprocessUser(user = {}) {
       const preprocessUser = {
         ...user,
+        rolesIds: [],
         department: user.department ? user.department : {},
         directManager: user.directManager ? user.directManager : {},
         indirectManager: user.indirectManager ? user.indirectManager : {},
       };
+      if (user.roles) {
+        preprocessUser.rolesIds = user.roles.map(item => item.id);
+      }
       if (user.directManager) {
         this.directManagerList.push(user.directManager);
       }
@@ -239,6 +271,7 @@ export default {
   },
   created() {
     this.$store.dispatch('department/getDepartmentList');
+    this.$store.dispatch('role/getRoleList');
     if (this.$route.name === 'user.edit') {
       this.getUser(this.$route.params.userId);
     } else {
