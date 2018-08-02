@@ -66,6 +66,9 @@ export default{
     editDirectInput(v) {
       this.$emit('editDirectInput', v);
     },
+    editDirectRemarks(id, v) {
+      this.$emit('editDirectRemarks', id, v);
+    },
     editDirectProject(id, v) {
       this.$emit('editDirectProject', id, v);
     },
@@ -149,8 +152,9 @@ export default{
           <td rowspan={pro.items.length}>
             <InputTr
               disabled={this.editTemplate || !this.isDirect}
-              on-blur={v => this.editDirectProject(pro.id, v)}
-              type="textarea" value={pro.remarks} on-input={v => pro.remarks = v}
+              on-blur={v => this.editDirectRemarks(pro.id, v)}
+              type="textarea"
+              value={this.findProjectScoreById(pro.id).remarks}
             />
           </td>
         </tr>);
@@ -261,8 +265,7 @@ export default{
                 on-blur={v => this.editDirectInput(v)}
                 disabled={this.editTemplate || !this.isDirect}
                 type="textarea"
-                value={this.val}
-                on-input={v => this.val = v}
+                value={this.selfInfo.directManagerEvaluation}
               />
             </td>
           </tr>
@@ -271,8 +274,7 @@ export default{
             <td colspan="6">
               <InputTr
                 on-blur={v => this.editInDirectInput(v)}
-                value={ this.val }
-                on-input={v => this.val = v}
+                value={this.selfInfo.indirectManagerAuditComments}
                 disabled={this.editTemplate || !this.isIndirect}
               />
             </td>
@@ -297,7 +299,10 @@ export default{
     currentTemplate: {
       type: Object,
       default() {
-        return {};
+        return {
+          assessmentProjects: [],
+          assessmentInputs: [],
+        };
       },
     },
     selfInfo: {

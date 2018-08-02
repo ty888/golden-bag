@@ -86,7 +86,6 @@ const app = {
     },
     async getSelfInfo({ commit }, id) {
       const res = await http.get(`assessments/${id}`, { loading: 'auditList' });
-      console.log(res.data.data);
       commit('updateSelfInfo', res.data.data);
     },
   },

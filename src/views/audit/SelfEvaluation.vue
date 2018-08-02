@@ -1,6 +1,6 @@
 <template>
   <div class="self_evaluation">
-    <main-header title="自评">
+    <main-header title="评价">
       <div slot="right">
         <el-button
           @click="submitSelf"
@@ -36,10 +36,13 @@
         @editDirectProject='editDirectProject'
         @editDirectInput='editDirectInput'
         @editInDirectInput='editInDirectInput'
+        @editDirectRemarks='editDirectRemarks'
         :editTemplate='false'
         :selfInfo='this.selfInfo'
-        :basicsInfo='me'
-        :currentTemplate='currentUserTemplate'
+        :basicsInfo="$route.name !== 'self_evaluation' ?
+          selfInfo.user : me"
+        :currentTemplate="$route.name !== 'self_evaluation' ?
+          selfInfo.assessmentTemplate : currentUserTemplate"
       />
     </div>
   </div>
@@ -103,7 +106,7 @@ export default {
     editDirectProject(id, v) {
       const inputObj = {
         assessmentProject: { id },
-        managerScores: v,
+        managerScore: v,
       };
       const index =
       this.directEvaluationData.assessmentProjectScores
@@ -117,6 +120,22 @@ export default {
     editDirectInput(v) {
       this.directEvaluationData.directManagerEvaluation = v;
     },
+    editDirectRemarks(projectId, v) {
+      const index =
+      this.directEvaluationData.assessmentProjectScores
+        .findIndex(item => item.assessmentProject.id === projectId);
+      if (index >= 0) {
+        this.directEvaluationData.assessmentProjectScores[index].remarks = v;
+      } else {
+        this.directEvaluationData.assessmentProjectScores.push({
+          assessmentProject: {
+            id: projectId,
+          },
+          managerScore: v,
+        });
+      }
+      console.log(projectId, v);
+    },
     // 间接经理评价
     editInDirectInput(v) {
       this.inDirectEvaluationData.indirectManagerAuditComments = v;
@@ -128,12 +147,11 @@ export default {
       });
     },
     submitDirect() {
-      // this.directEvaluationData.id = this.$route.params.recordId;
-      // this.$store.dispatch('audit/directEvaluation', this.directEvaluationData).then(() => {
-      //   this.$message.success('评价成功！');
-      //   this.$router.push({ name: 'direct_manager' });
-      // });
-      console.log(this.selfInfo);
+      this.directEvaluationData.id = this.$route.params.recordId;
+      this.$store.dispatch('audit/directEvaluation', this.directEvaluationData).then(() => {
+        this.$message.success('评价成功！');
+        this.$router.push({ name: 'direct_manager' });
+      });
     },
     submitIndirect() {
       this.inDirectEvaluationData.id = this.$route.params.recordId;
@@ -153,9 +171,6 @@ export default {
     selfInfo() {
       return this.$store.state.audit.selfInfo;
     },
-    // title() {
-    //   if (this.$route.name === 'self_evaluation'){}
-    // },
   },
   created() {
     if (this.$route.name !== 'self_evaluation') {

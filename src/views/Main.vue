@@ -63,10 +63,6 @@ export default {
     if (!isLogin()) {
       window.location = `/auth/login?callback=${window.location}`;
     }
-    // setTimeout(()=> {
-    //   this.$router.addRoutes([{ path: '/ads',
-    // component: () => import('@/views/Workbench.vue') }]);
-    // }, 1000);
   },
 };
 </script>
