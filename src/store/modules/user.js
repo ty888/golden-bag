@@ -7,7 +7,7 @@ const app = {
     userList: [],
     userMeta: {},
     currentUser: {},
-    currentUserTemplate: '',
+    currentUserTemplate: {},
   },
   mutations: {
     updateUserList(state, { content, meta }) {

@@ -8,7 +8,10 @@ const app = {
     directManagerMeta: {},
     inDirectManagerList: [],
     inDirectManagerMeta: {},
-    selfInfo: {},
+    selfInfo: {
+      assessmentProjectScores: [],
+      assessmentInputContents: [],
+    },
   },
   mutations: {
     updateDirectManagerList(state, { content, meta }) {
