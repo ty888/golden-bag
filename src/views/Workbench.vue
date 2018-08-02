@@ -2,7 +2,7 @@
   <div class="workbench">
     <div class="header">
       <div class="img">
-        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532432586518&di=280d14ead1ac0242e13d8bb51dce63d4&imgtype=0&src=http%3A%2F%2Fwww.btc38.com%2Fuploadfile%2F2015%2F0326%2F20150326042232117.png" alt="">
+        <img src="../assets/avatar.gif" alt="">
       </div>
       <div class="info">
         <h3 class="name">hello，{{me.name}}！</h3>
@@ -25,6 +25,9 @@
         </div>
         <div>离下个季度发奖金还剩<span class="time">43</span>天</div>
       </div>
+    </div>
+    <div class="body">
+      <img src="../assets/index.png" alt="">
     </div>
   </div>
 </template>
@@ -61,6 +64,7 @@ export default {
 
 <style lang="less" scoped>
 .workbench{
+  height: 100%;
   >.header{
     background-color: #fff;
     padding: 30px 40px;
@@ -72,6 +76,7 @@ export default {
       height: 72px;
       border-radius: 100%;
       float: left;
+      overflow: hidden;
       >img{width: 100%;height: 100%;}
     }
     >.info{
@@ -111,6 +116,15 @@ export default {
         left: -150px;
       }
     }
+  }
+}
+.body{
+  background-color: #e3e3e3;
+  height: calc(100% - 132px);
+  >img{
+    display: block;
+    width: 500px;
+    margin: 0 auto;
   }
 }
 </style>

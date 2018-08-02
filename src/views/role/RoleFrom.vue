@@ -122,6 +122,7 @@ export default {
         this.getRole(this.$route.params.roleId);
       } else {
         this.roleClone = this.preprocessRole({});
+        this.roleClone.permissions = [];
       }
     },
   },

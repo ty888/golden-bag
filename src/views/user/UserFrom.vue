@@ -23,6 +23,24 @@
           <el-form-item prop="phone" label="手机号">
             <el-input v-model="userClone.phone" placeholder="请输入手机号" type="number"></el-input>
           </el-form-item>
+          <el-form-item
+            v-if="this.$route.name !== 'user.edit'"
+            class="password_box" prop="password"
+            label="密码"
+          >
+            <el-input
+              v-model="userClone.password"
+              placeholder="请输入密码"
+              :type="isSee ? 'text' : 'password'">
+            </el-input>
+            <icon
+              @click.native="isSee = !isSee"
+              :type="isSee === true ? 'eye-off' : 'eye'"
+              class="pwd_switch"
+              color="#999"
+              size="24"
+            />
+          </el-form-item>
           <el-form-item prop="rankCoefficient"  label="职级系数">
             <el-input-number
               v-model="userClone.rankCoefficient"
@@ -114,6 +132,7 @@
 import MainHeader from '@/components/MainHeader.vue';
 import http from '@/utils/http';
 import clone from 'clone';
+import Icon from '@/components/Icon.vue';
 import { createNamespacedHelpers } from 'vuex';
 
 const { mapState, mapActions } = createNamespacedHelpers('user');
@@ -121,7 +140,7 @@ const { mapState, mapActions } = createNamespacedHelpers('user');
 export default {
   name: 'UserFrom',
   components: {
-    MainHeader,
+    MainHeader, Icon,
   },
   data() {
     return {
@@ -129,6 +148,7 @@ export default {
       indirectManagerList: [],
       directManagerList: [],
       searchDepartment: [],
+      isSee: false,
     };
   },
   beforeRouteUpdate(to, from, next) {
@@ -200,6 +220,9 @@ export default {
     ]),
     onSubmit() {
       this.userClone.roles = this.userClone.rolesIds.map(item => ({ id: item }));
+      if (this.$route.name === 'user.edit') {
+        delete this.userClone.password;
+      }
       // delete this.userClone.rolesIds;
       this.$refs.userForm.validate((passed) => {
         if (passed) {
@@ -288,6 +311,13 @@ export default {
   .form{
     width: 500px;
     margin: 0 auto;
+  }
+  .password_box{
+    position: relative;
+    .pwd_switch{
+      position: absolute;
+      right: 10px;
+    }
   }
 }
 </style>

@@ -15,9 +15,9 @@
       </el-aside>
       <el-container>
         <div class="el_main">
-          <div class="page_header">
+          <!-- <div class="page_header">
             <breadcrumb :currentPath="currentPath"/>
-          </div>
+          </div> -->
           <router-view class="main"/>
         </div>
       </el-container>

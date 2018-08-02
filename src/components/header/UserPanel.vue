@@ -1,7 +1,7 @@
 <template>
   <div @mouseenter="mouseEnter" @mouseleave="mouseLeave" class="user_panel">
     <div class="user_avatar">
-      <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532432586518&di=280d14ead1ac0242e13d8bb51dce63d4&imgtype=0&src=http%3A%2F%2Fwww.btc38.com%2Fuploadfile%2F2015%2F0326%2F20150326042232117.png" alt="" title="" />
+      <img src="../../assets/avatar.gif" alt="" title="" />
     </div>
     <div class="user_profile">
       <span class="user_info">{{me.name}}</span>
@@ -73,6 +73,7 @@ export default {
       line-height: 1;
       > img{
         width: 100%;
+        height: 100%;
       }
     }
     .user_profile{

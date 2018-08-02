@@ -24,7 +24,6 @@ const app = {
       Object.assign(state, { currentInDirectManager: data });
     },
     updateSelfInfo(state, data) {
-      console.log(7877667,data);
       Object.assign(state, { selfInfo: data });
     },
   },
@@ -84,6 +83,7 @@ const app = {
     },
     async getSelfInfo({ commit }, id) {
       const res = await http.get(`assessments/${id}`, { loading: 'auditList' });
+      console.log(res.data.data);
       commit('updateSelfInfo', res.data.data);
     },
   },

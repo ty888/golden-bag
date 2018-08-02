@@ -151,7 +151,6 @@ export default {
       return this.$store.state.user.currentUserTemplate;
     },
     selfInfo() {
-      console.log(this.$store.state.audit.selfInfo);
       return this.$store.state.audit.selfInfo;
     },
     // title() {
@@ -159,11 +158,10 @@ export default {
     // },
   },
   created() {
-    if(this.$route.name !== 'self_evaluation'){
-      console.log(1);
-      this.$store.dispatch('audit/getSelfInfo');
+    if (this.$route.name !== 'self_evaluation') {
+      this.$store.dispatch('audit/getSelfInfo', this.$route.params.recordId);
     }
-  }
+  },
 };
 </script>
 

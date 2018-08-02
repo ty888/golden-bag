@@ -37,10 +37,10 @@ export default{
       'modifyTemplate',
     ]),
     findProjectScoreById(projectId) {
-      return this.selfInfo.assessmentProjectScores.find(item => item.assessmentProject.id === projectId) || {};
+      return this.selfInfo.assessmentProjectScores.find(item => item.assessmentProject.id === projectId) || {}; // eslint-disable-line
     },
     findInputContentById(inputId) {
-      return this.selfInfo.assessmentInputContents.find(item => item.assessmentInput.id === inputId) || {};
+      return this.selfInfo.assessmentInputContents.find(item => item.assessmentInput.id === inputId) || {}; // eslint-disable-line
     },
     updateProject(id, title) {
       this.modifyTemplate({ id, type: 'project', params: { title } }).then(() => {

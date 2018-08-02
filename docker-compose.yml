@@ -1,7 +1,7 @@
 version: "3"
 services:
   golden-bag-frontend:
-    image: nginx:1.13-alpine
+    build: .
     container_name: golden-bag-frontend
     ports:
       - "8080:80"

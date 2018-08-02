@@ -146,19 +146,19 @@ export default {
     // 导出指定一条记录
     exportOne(params) {
       // this.exportRecord(params.id);
-      window.location = `assessments/export/${params.id}`;
+      window.location = `/assessments/export/${params.id}`;
     },
     // 导出当前季度
     exportCurrent() {
-      window.location = 'assessments/batch_export/byquarters?quarer_ids=1';
+      window.location = '/assessments/batch_export/byquarters?quarer_ids=1';
     },
     // 导出指定季度记录
     exportQuarters() {
-      window.location = `assessments/batch_export/byquarters?quarer_ids=${this.quarterIds.join(',')}`;
+      window.location = `/assessments/batch_export/byquarters?quarer_ids=${this.quarterIds.join(',')}`;
     },
     // 导出指定多条数据
     exportRecs() {
-      window.location = `assessments/batch_export/byquarters?quarer_ids=${this.multipleSelection}`;
+      window.location = `/assessments/batch_export/byquarters?quarer_ids=${this.multipleSelection.join(',')}`;
     },
   },
   created() {

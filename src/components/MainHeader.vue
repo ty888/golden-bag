@@ -29,7 +29,7 @@ export default {
     background-color: #fff;
     padding:10px 30px 20px;
     overflow: hidden;
-    padding-top: 0px;
+    padding-top: 20px;
     > .title {
       display: inline-block;
       font-weight: 400;
