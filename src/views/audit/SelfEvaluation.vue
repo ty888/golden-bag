@@ -37,8 +37,9 @@
         @editDirectInput='editDirectInput'
         @editInDirectInput='editInDirectInput'
         :editTemplate='false'
+        :selfInfo='this.selfInfo'
         :basicsInfo='me'
-        :currentTemplate='currentTemplate'
+        :currentTemplate='currentUserTemplate'
       />
     </div>
   </div>
@@ -57,9 +58,6 @@ export default {
   data() {
     return {
       selfEvaluationData: {
-        assessmentTemplate: {
-          id: this.$route.params.recordId,
-        },
         assessmentProjectScores: [],
         assessmentInputContents: [],
       },
@@ -126,15 +124,16 @@ export default {
     submitSelf() {
       this.$store.dispatch('audit/selfEvaluation', this.selfEvaluationData).then(() => {
         this.$message.success('评价成功！');
-        this.$router.push({ name: 'Workbench' });
+        this.$router.push({ name: 'workbench' });
       });
     },
     submitDirect() {
-      this.directEvaluationData.id = this.$route.params.recordId;
-      this.$store.dispatch('audit/directEvaluation', this.directEvaluationData).then(() => {
-        this.$message.success('评价成功！');
-        this.$router.push({ name: 'direct_manager' });
-      });
+      // this.directEvaluationData.id = this.$route.params.recordId;
+      // this.$store.dispatch('audit/directEvaluation', this.directEvaluationData).then(() => {
+      //   this.$message.success('评价成功！');
+      //   this.$router.push({ name: 'direct_manager' });
+      // });
+      console.log(this.selfInfo);
     },
     submitIndirect() {
       this.inDirectEvaluationData.id = this.$route.params.recordId;
@@ -148,13 +147,23 @@ export default {
     me() {
       return this.$store.state.me.me;
     },
-    currentTemplate() {
-      return this.$store.state.template.currentTemplate;
+    currentUserTemplate() {
+      return this.$store.state.user.currentUserTemplate;
     },
+    selfInfo() {
+      console.log(this.$store.state.audit.selfInfo);
+      return this.$store.state.audit.selfInfo;
+    },
+    // title() {
+    //   if (this.$route.name === 'self_evaluation'){}
+    // },
   },
   created() {
-    this.getTemplate(1);
-  },
+    if(this.$route.name !== 'self_evaluation'){
+      console.log(1);
+      this.$store.dispatch('audit/getSelfInfo');
+    }
+  }
 };
 </script>
 

@@ -1,20 +1,31 @@
 <template>
   <div class="template_list">
-    <main-header title="模板管理">
-      <div slot="right">
-        <el-button icon="el-icon-plus" @click="onAdd" type="primary">新建模板</el-button>
-      </div>
-    </main-header>
+    <main-header title="模板管理"></main-header>
     <div class="right_page main">
-      <div class="year_list" v-for="(template, key) of templateList" :key='key'>
-        <h2 class="title">{{key}}</h2>
-        <TemplateItem
-          :id="item.id"
-          :title="item.name"
-          v-for="(item, index) in template"
-          :key="index"
-        />
-      </div>
+      <el-tabs tab-position="top" v-model="activeName">
+        <el-tab-pane label="员工模版" name="staff">
+          <div class="year_list" v-for="(template, key) of staffTemplateList" :key='key'>
+            <h2 class="title">{{key}}</h2>
+            <TemplateItem
+              :id="item.id"
+              :title="item.name"
+              v-for="(item, index) in template"
+              :key="index"
+            />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="经理模版" name="manager">
+          <div class="year_list" v-for="(template, key) of managerTemplateList" :key='key'>
+            <h2 class="title">{{key}}</h2>
+            <TemplateItem
+              :id="item.id"
+              :title="item.name"
+              v-for="(item, index) in template"
+              :key="index"
+            />
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
@@ -28,24 +39,28 @@ const { mapActions, mapState } = createNamespacedHelpers('template');
 
 export default {
   name: 'TemplateList',
+  data() {
+    return {
+      activeName: 'staff',
+    };
+  },
   components: {
     MainHeader, TemplateItem,
   },
   methods: {
     ...mapActions([
-      'getTemplateList',
+      'getStaffTemplateList',
+      'getManagerTemplateList',
     ]),
-    onAdd() {
-      // this.$router.push({ name: 'template.create' });
-      console.log(this.templateList);
-    },
   },
   created() {
-    this.getTemplateList();
+    this.getStaffTemplateList();
+    this.getManagerTemplateList();
   },
   computed: {
     ...mapState([
-      'templateList',
+      'staffTemplateList',
+      'managerTemplateList',
     ]),
   },
 };

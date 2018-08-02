@@ -30,8 +30,8 @@ const app = {
       state.userList.splice(targetUserIndex, 1); // eslint-disable-line
       state.userMeta.totalElements = state.userMeta.totalElements - 1; // eslint-disable-line
     },
-    updateCurrentUserTemplate(state, { id }) {
-      Object.assign(state, { currentUserTemplate: id });
+    updateCurrentUserTemplate(state, { data }) {
+      Object.assign(state, { currentUserTemplate: data });
     },
   },
   actions: {
@@ -74,7 +74,7 @@ const app = {
     },
     async getCurrentUserTemplate({ commit }) {
       const res = await http.get('templates/get_template', { loading: 'user' });
-      commit('updateCurrentUserTemplate', res.data.data);
+      commit('updateCurrentUserTemplate', res.data);
     },
   },
 };

@@ -16,6 +16,8 @@ export default {
       audit: false,
       auditList: false,
       permissionList: false,
+      summaryList: false,
+      export: false,
       // good: false,
       // goodList: false,
       // addGood: false,

@@ -29,7 +29,9 @@ http.interceptors.response.use((response) => {
   if (error.response.config.loading) {
     store.commit('loading/endLoading', { name: error.response.config.loading });
   }
-  return Promise.reject(error);
+  if (error.response.status === 401) {
+    window.location = `/auth/login?callback=${window.location}`;
+  }
 });
 
 export default http;

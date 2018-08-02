@@ -1,6 +1,7 @@
 import Main from '@/views/Main.vue';
 
 // 作为Main组件的子页面展示但是不在左侧菜单显示的路由写在otherRoute里
+
 export const otherRoute = {
   path: '/',
   name: 'otherRoute',
@@ -53,7 +54,7 @@ export const otherRoute = {
       component: () => import('@/views/role/RoleFrom.vue'),
     },
     {
-      path: 'audit/self-evaluation/:recordId',
+      path: 'audit/self-evaluation',
       title: '自评',
       name: 'self_evaluation',
       component: () => import('@/views/audit/SelfEvaluation.vue'),

@@ -10,7 +10,7 @@
     <transition name="fade">
       <div v-show="showActions" class="actions">
         <div class="arrow"></div>
-        <a href="#">退出登陆</a>
+        <a @click="logout" href="#">退出登陆</a>
       </div>
     </transition>
   </div>
@@ -47,6 +47,9 @@ export default {
         this.showActions = false;
         this.timer = null;
       }, 300);
+    },
+    logout() {
+      window.location = '/auth/logout';
     },
   },
 };

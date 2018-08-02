@@ -5,18 +5,19 @@ import { underline2Hump, initialUppercase } from '@/utils/utils';
 const app = {
   namespaced: true,
   state: {
-    templateList: [],
+    staffTemplateList: [],
+    managerTemplateList: [],
     currentTemplate: {
       assessmentInputs: [],
       assessmentProjects: [],
     },
   },
   mutations: {
-    updateTemplateList(state, { data }) {
-      Object.assign(state, { templateList: data });
+    updateStaffTemplateList(state, { data }) {
+      Object.assign(state, { staffTemplateList: data });
     },
-    addTemplate(state, newTemplate) { // eslint-disable-line
-      // state.templateList.unshift(newTemplate);
+    updateManagerTemplateList(state, { data }) {
+      Object.assign(state, { managerTemplateList: data });
     },
     updateTemplate(state, data) {
       Object.assign(state, { currentTemplate: data });
@@ -25,10 +26,6 @@ const app = {
       const targetTemplateIndex =
         state.templateList.findIndex(item => item.id === newTemplate.id);
       Vue.set(state.templateList, targetTemplateIndex, newTemplate); // eslint-disable-line
-    },
-    deleteTemplate(state, id) {
-      const targetTemplateIndex = state.templateList.findIndex(item => item.id === id);
-      state.templateList.splice(targetTemplateIndex, 1); // eslint-disable-line
     },
     addProjectItem(state, projectItem) {
       const project =
@@ -43,14 +40,39 @@ const app = {
     addTemplateInput(state, input) {
       state.currentTemplate.assessmentInputs.push(input);
     },
+    updateTemplateInput(state, newTemplate) {
+      const targetTemplateIndex =
+        state.currentTemplate.assessmentInputs.findIndex(item => item.id === newTemplate.id);
+      Vue.set(state.currentTemplate.assessmentInputs, targetTemplateIndex, newTemplate); // eslint-disable-line
+    },
+    // updateProject(state, newTemplate) {
+    //   const targetTemplateIndex =
+    //     state.currentTemplate.assessmentProjects.
+    //     findIndex(item => item.title === newTemplate.titel);
+    //   Vue.set(state.currentTemplate.assessmentProjects, targetTemplateIndex, newTemplate);
+    // },
+    // updateProjectItem(state, newTemplate) {
+    //   const project =
+    //     state.currentTemplate.assessmentProjects.find(item => item.id === newTemplate.parentId);
+    //   if (project) {
+    //     const targetTemplateIndex =
+    //       state.project.items.findIndex(item => item.id === newTemplate.id);
+    //     Vue.set(state.project.items, targetTemplateIndex, newTemplate); // eslint-disable-line
+    //   }
+    // },
   },
   actions: {
-    async getTemplateList({ commit }, params) { // eslint-disable-line
-      const res = await http.get('templates', {
+    async getStaffTemplateList({ commit }) { // eslint-disable-line
+      const res = await http.get('templates?type=staff', {
         loading: 'templateList',
-        params,
       });
-      commit('updateTemplateList', res.data);
+      commit('updateStaffTemplateList', res.data);
+    },
+    async getManagerTemplateList({ commit }) { // eslint-disable-line
+      const res = await http.get('templates?type=manager', {
+        loading: 'templateList',
+      });
+      commit('updateManagerTemplateList', res.data);
     },
     async getTemplate({ commit }, id) {
       const res = await http.get(`templates/${id}`, {
@@ -58,17 +80,9 @@ const app = {
       });
       commit('updateTemplate', res.data.data);
     },
-    async addTemplate({ commit }, template) {
-      const { data: { data: newTemplate } } = await http.post('templates', template, { loading: 'templateList' });
-      commit('addTemplate', newTemplate);
-    },
     async modifyTemplate({ commit }, { id, type, params }) {
-      await http.put(`/templates/${type}/${id}`, params);
-      console.log(commit);
-    },
-    async deleteTemplate({ commit }, id) {
-      await http.delete(`templates/${id}`, { loading: 'templateList' });
-      commit('deleteTemplate', id);
+      const { data: { data: newTemplateProps } } = await http.put(`/templates/${type}/${id}`, params);
+      commit(`update${initialUppercase(underline2Hump(type))}`, newTemplateProps);
     },
     async addTemplateProps({ commit }, { type, params }) {
       const { data: { data: newTemplateProps } } = await http.post(`templates/${params.id}/${type}`, params, { loading: 'templateList' });

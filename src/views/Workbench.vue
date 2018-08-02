@@ -16,7 +16,12 @@
         <div class="evaluate_btn">
           <el-button
             @click="selfEvaluation"
-            type="primary" plain>季度自评</el-button>
+            type="primary"
+            plain
+            :disabled="isSubmit"
+          >
+            {{!isSubmit ? '季度自评' : '本季度已经自评'}}
+          </el-button>
         </div>
         <div>离下个季度发奖金还剩<span class="time">43</span>天</div>
       </div>
@@ -33,7 +38,7 @@ export default {
   name: 'WorkBench',
   methods: {
     selfEvaluation() {
-      this.$router.push({ name: 'self_evaluation', params: { recordId: this.currentUserTemplate } });
+      this.$router.push({ name: 'self_evaluation' });
     },
   },
   computed: {
@@ -43,6 +48,9 @@ export default {
     ]),
     currentUserTemplate() {
       return this.$store.state.user.currentUserTemplate;
+    },
+    isSubmit() {
+      return this.$store.state.me.isSubmit;
     },
   },
   created() {
@@ -100,7 +108,7 @@ export default {
       >.evaluate_btn{
         position: absolute;
         bottom: -5px;
-        left: -120px;
+        left: -150px;
       }
     }
   }

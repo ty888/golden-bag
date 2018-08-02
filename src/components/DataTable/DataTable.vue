@@ -30,6 +30,7 @@
                 type="danger"
                 @click="onDel(scope.row)"
                 icon="el-icon-delete"
+                :disabled="isDisable"
                 ></el-button>
             </el-button-group>
           </template>
@@ -81,6 +82,7 @@ export default {
     },
     action: Object,
     pageMeta: Object,
+    isDisable: Boolean,
   },
   components: { TableRenderItem },
   methods: {

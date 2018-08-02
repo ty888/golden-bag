@@ -36,6 +36,12 @@ export default{
     ...mapActions([
       'modifyTemplate',
     ]),
+    findProjectScoreById(projectId) {
+      return this.selfInfo.assessmentProjectScores.find(item => item.assessmentProject.id === projectId) || {};
+    },
+    findInputContentById(inputId) {
+      return this.selfInfo.assessmentInputContents.find(item => item.assessmentInput.id === inputId) || {};
+    },
     updateProject(id, title) {
       this.modifyTemplate({ id, type: 'project', params: { title } }).then(() => {
         this.$message.success('更新成功！');
@@ -128,8 +134,7 @@ export default{
             <InputTr
               on-blur={v => this.editSelfProject(pro.id, v)}
               disabled={this.editTemplate || !this.isSelf}
-              value={pro.self_evaluation}
-              on-input={v => pro.self_evaluation = v}
+              value={this.findProjectScoreById(pro.id).selfScore}
             />
           </td>
           {/* 第一行直接经理评分 */}
@@ -137,7 +142,7 @@ export default{
             <InputTr
               disabled={this.editTemplate || !this.isDirect}
               on-blur={v => this.editDirectProject(pro.id, v)}
-              value={pro.direct_manager_score} on-input={v => pro.direct_manager_score = v}
+              value={this.findProjectScoreById(pro.id).managerScore}
             />
           </td>
           {/* 第一行备注 */}
@@ -170,7 +175,7 @@ export default{
               on-blur={v => this.editSelfInput(inputItem.id, v)}
               disabled={this.editTemplate || !this.isSelf}
               type="textarea"
-              value={inputItem.value} on-input={v => inputItem.value = v}
+              value={this.findInputContentById(inputItem.id).content}
             />
           </td>
         </tr>);
@@ -292,7 +297,16 @@ export default{
     currentTemplate: {
       type: Object,
       default() {
-        return [];
+        return {};
+      },
+    },
+    selfInfo: {
+      type: Object,
+      default() {
+        return {
+          assessmentProjectScores: [],
+          assessmentInputContents: [],
+        };
       },
     },
   },

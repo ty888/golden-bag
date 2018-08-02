@@ -1,4 +1,5 @@
-import { appRoutes, otherRoute } from '@/router/routes';
+// import { appRoutes} from '@/router/routes';
+// import { otherRoute } from '@/router';
 import { handleTitle } from '@/utils/utils';
 
 const app = {
@@ -9,22 +10,24 @@ const app = {
     currentPath: [],
     // 所有main组件的子路由
     childrenRoutes: [
-      otherRoute,
-      ...appRoutes,
+      // otherRoute,
     ],
     // 侧边菜单栏是否展开
     isCollapse: false,
   },
   mutations: {
-    updateMenuList(state) {
+    updateMenuList(state, data) {
       // todo 权限处理
-      Object.assign(state, { menuList: appRoutes });
+      Object.assign(state, { menuList: data });
     },
     updateCurrentPath(state, path) {
       Object.assign(state, { currentPath: path });
     },
     toggleCollapse(state) {
       Object.assign(state, { isCollapse: !state.isCollapse });
+    },
+    updateChildrenRoutes(state, routes) {
+      Object.assign(state, { childrenRoutes: routes });
     },
   },
   actions: {

@@ -4,13 +4,14 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 import App from './App.vue';
-import router from './router';
 import store from './store';
+import router, { installRouter } from './router';
 import { installHttp } from './utils/http';
 
 Vue.use(ElementUI);
 
 installHttp(store);
+installRouter(store);
 
 Vue.config.productionTip = false;
 

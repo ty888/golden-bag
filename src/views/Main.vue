@@ -31,6 +31,7 @@ import HeaderBar from '@/components/HeaderBar.vue';
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import FullScreen from '@/components/header/FullScreen.vue';
 import UserPanel from '@/components/header/UserPanel.vue';
+import { isLogin } from '@/utils/utils';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -57,6 +58,15 @@ export default {
   },
   mounted() {
     this.$store.dispatch('me/getMe');
+    this.$store.dispatch('me/getMenu');
+    this.$store.dispatch('user/getCurrentUserTemplate');
+    if (!isLogin()) {
+      window.location = `/auth/login?callback=${window.location}`;
+    }
+    // setTimeout(()=> {
+    //   this.$router.addRoutes([{ path: '/ads',
+    // component: () => import('@/views/Workbench.vue') }]);
+    // }, 1000);
   },
 };
 </script>
@@ -86,7 +96,7 @@ export default {
 
   .side_menu_aside {
     background-color: #fff;
-    overflow: hidden;
+    // overflow: hidden;
   }
   .el_main{
     width: 100%;

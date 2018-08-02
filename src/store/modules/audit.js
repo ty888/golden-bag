@@ -8,6 +8,7 @@ const app = {
     directManagerMeta: {},
     inDirectManagerList: [],
     inDirectManagerMeta: {},
+    selfInfo: {},
   },
   mutations: {
     updateDirectManagerList(state, { content, meta }) {
@@ -21,6 +22,10 @@ const app = {
     },
     updateInDirectManager(state, data) {
       Object.assign(state, { currentInDirectManager: data });
+    },
+    updateSelfInfo(state, data) {
+      console.log(7877667,data);
+      Object.assign(state, { selfInfo: data });
     },
   },
   actions: {
@@ -73,10 +78,13 @@ const app = {
       });
     },
     async inDirectEvaluation(_, params) {
-      console.log(params);
       await http.put(`indirect_manager_comments/${params.id}`, params, {
         loading: 'audit',
       });
+    },
+    async getSelfInfo({ commit }, id) {
+      const res = await http.get(`assessments/${id}`, { loading: 'auditList' });
+      commit('updateSelfInfo', res.data.data);
     },
   },
 };

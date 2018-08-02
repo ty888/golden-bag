@@ -10,6 +10,7 @@ import template from './modules/template';
 import audit from './modules/audit';
 import me from './modules/me';
 import role from './modules/role';
+import summary from './modules/summary';
 
 Vue.use(Vuex);
 
@@ -33,5 +34,6 @@ export default new Vuex.Store({
     audit,
     me,
     role,
+    summary,
   },
 });

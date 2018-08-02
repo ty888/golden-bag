@@ -15,40 +15,39 @@
       :collapse="isCollapse"
       :collapse-transition="true"
     >
-      <template v-for="menuItem in menuList">
-        <el-menu-item
-          v-if="menuItem.top"
-          :key="menuItem.children[0].name"
-          :index="menuItem.children[0].name"
-        >
-          <i v-if="menuItem.icon" :class="menuItem.icon"></i>
-          <span>{{menuItem.children[0].title}}</span>
-        </el-menu-item>
-        <el-submenu
-          v-else
-          :key="menuItem.name"
-          :index="menuItem.name"
-        >
-          <template slot="title">
-            <i v-if="menuItem.icon" :class="menuItem.icon"></i>
-            <span>{{menuItem.title}}</span>
-          </template>
+      <el-menu-item :route="{ name: 'workbench' }" index="workbench">
+        <i class="ion-md-cube"></i>
+        <span slot="title">工作台</span>
+      </el-menu-item>
+      <template v-for="parentMenu in menuList">
+        <el-submenu :index="parentMenu.name" :key="parentMenu.name">
+        <template slot="title">
+          <i :class="rootRouter[parentMenu.name].icon"></i>
+          <span>{{parentMenu.displayName}}</span>
+        </template>
+        <el-menu-item-group v-for="(manuItem, index) in parentMenu.children" :key="index">
+          <template slot="title">{{manuItem.displayName}}</template>
           <el-menu-item
-            v-for="children in menuItem.children"
-            :key="children.name"
-            :index="children.name"
+            v-if="appRouterMapping[`${parentMenu.name}.${manuItem.name}`] &&
+             !route.path.includes(':')"
+            v-for="route in appRouterMapping[`${parentMenu.name}.${manuItem.name}`]"
+            :key="route.name"
+            :index="route.name"
+            :route="{ name: route.name }"
           >
-            {{children.title}}
+          {{route.title}}
           </el-menu-item>
-        </el-submenu>
+        </el-menu-item-group>
+      </el-submenu>
       </template>
     </el-menu>
   </div>
 </template>
 
 <script>
-import Icon from '@/components/Icon.vue';
 import { mapMutations } from 'vuex';
+import Icon from '@/components/Icon.vue';
+import { appRouterMapping } from '../router';
 
 export default {
   name: 'SideMenu',
@@ -58,11 +57,24 @@ export default {
   props: {
     menuList: {
       type: Array,
+      default() {
+        return [];
+      },
       required: true,
     },
     isCollapse: {
       type: Boolean,
     },
+  },
+  data() {
+    return {
+      appRouterMapping,
+      rootRouter: {
+        basic: { icon: 'ion-md-cube' },
+        template_module: { icon: 'ion-md-albums' },
+        assessment: { icon: 'ion-md-exit' },
+      },
+    };
   },
   methods: {
     ...mapMutations([

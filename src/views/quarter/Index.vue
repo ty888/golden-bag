@@ -1,25 +1,13 @@
 <template>
   <div class="role">
-    <main-header title="季度管理">
-      <div slot="right">
-        <el-button icon="el-icon-plus" @click="onAdd" type="primary">新建季度</el-button>
-      </div>
-      <div class="bottom_left" slot="bottom_left">
-        <!-- <div class="filter_bar">
-          <FilterBar useQuery @change="onFilterChange" :filters="filters"/>
-        </div> -->
-      </div>
-      <div class="bottom_right" slot="bottom_right">
-        <!-- <export event="export" @export="exportClass"></export> -->
-      </div>
-    </main-header>
+    <main-header title="季度管理"></main-header>
     <div class="right_page">
       <data-table
         :columns="columns"
         :dataSource="quarterList"
         :loading="loading"
-        @onDel="onDel"
         @onEdit="onEdit"
+        :isDisable="isDisable"
         :pageMeta="quarterMeta"
         @pageChange="pageChange"
         @pageSizeChange="pageChange"
@@ -66,26 +54,19 @@
 import { createNamespacedHelpers } from 'vuex';
 import DataTable from '@/components/DataTable';
 import MainHeader from '@/components/MainHeader.vue';
-// import FilterBar from '@/components/FilterBar.vue';
 
 const { mapActions, mapState } = createNamespacedHelpers('quarter');
 
 export default {
   components: {
     DataTable, MainHeader,
-    // FilterBar,
   },
   data() {
     return {
       showAdd: false,
       isCreate: true,
+      isDisable: true,
       theQuarter: {},
-      currentDate: [
-        `${new Date().getFullYear()}-01-01`,
-        `${new Date().getFullYear()}-04-01`,
-        `${new Date().getFullYear()}-07-01`,
-        `${new Date().getFullYear()}-10-01`,
-      ],
       columns: [
         {
           label: '季度名称',
@@ -122,27 +103,6 @@ export default {
     loading() {
       return this.$store.state.loading.loadings.quarterList;
     },
-    // filters() {
-    //   return [
-    //     {
-    //     //   key: '',
-    //       placeholder: '按商品名称筛选',
-    //     //   options: '',
-    //     },
-    //     {
-    //       key: 'category_id',
-    //       placeholder: '按商品类别筛选',
-    //       options: this.categoriesList,
-    //     },
-    //     {
-    //     //   key: '',
-    //       placeholder: '按商品ID筛选',
-    //     //   options: '',
-    //     },
-    //   ];
-    // },
-  },
-  mounted() {
   },
   created() {
     this.getQuarterList(this.$route.query);
@@ -150,9 +110,7 @@ export default {
   methods: {
     ...mapActions([
       'getQuarterList',
-      'deleteQuarter',
       'getQuarter',
-      'addQuarter',
       'modifyQuarter',
     ]),
     onSubmint() {
@@ -175,28 +133,11 @@ export default {
         });
       }
     },
-    // onFilterChange() {
-    //   this.getGoodList(this.$route.query);
-    // },
-    onAdd() {
-      this.showAdd = true;
-      this.isCreate = true;
-      this.theQuarter = {};
-      this.theQuarter.startDate = this.currentDate[((new Date().getMonth() + 1) % 4) - 1];
-    },
     onEdit(quarter) {
       this.isCreate = false;
       this.showAdd = true;
       this.getQuarter(quarter.id).then(() => {
         this.theQuarter = this.currentQuarter;
-      });
-    },
-    onDel(quarter) {
-      this.deleteQuarter(quarter.id).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!',
-        });
       });
     },
     pageChange(params) {

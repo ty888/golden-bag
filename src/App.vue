@@ -1,10 +1,13 @@
 <template>
   <div class="app">
-    <router-view></router-view>
+    <Main />
   </div>
 </template>
 <script>
+import Main from './views/Main.vue';
+
 export default {
+  components: { Main },
   data() {
     return {
     };
