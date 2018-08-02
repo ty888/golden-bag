@@ -6,7 +6,7 @@ export function installHttp(s) {
 }
 
 const http = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? '/api' : '/',
+  baseURL: '/',
   responseType: 'json',
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
